@@ -20,8 +20,8 @@ public class App {
         // pegar só os dados que interessam (titulo, poster, classificação) [Parsear o json]
         var parser = new JsonParser();
         List<Map<String, String>> listaDeFilmes = parser.parse(body);
-        System.out.println(listaDeFilmes.size());
-        System.out.println(listaDeFilmes.get(0));
+        //System.out.println(listaDeFilmes.size());
+        //System.out.println(listaDeFilmes.get(0));
 
         // exibir e manipular os dados
     }
