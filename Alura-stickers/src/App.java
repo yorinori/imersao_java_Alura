@@ -3,6 +3,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.util.List;
+import java.util.Map;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -16,7 +18,8 @@ public class App {
         String body = response.body();
         System.out.println(body);
 
-        // pegar só os dados que interessam (titulo, poster, classificação) [Parsear os dados]
+        // pegar só os dados que interessam (titulo, poster, classificação) [Parsear o json]
+        List<Map<String, String>> listaDeFilmes;
 
         // exibir e manipular os dados
     }
