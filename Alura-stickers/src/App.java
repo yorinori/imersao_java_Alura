@@ -12,7 +12,8 @@ public class App {
     public static void main(String[] args) throws Exception {
 
         // fazer uma conexão HTTP e buscar os top 250 filmes
-        String url = "https://api.mocki.io/v2/549a5d8b";
+        // String url = "https://api.mocki.io/v2/549a5d8b";
+        String url = "https://api.mocki.io/v2/549a5d8b/NASA-APOD";
         URI endereco = URI.create(url);
         var client = HttpClient.newHttpClient();
         var request = HttpRequest.newBuilder(endereco).GET().build();
@@ -30,7 +31,8 @@ public class App {
         for (int i = 0; i < 10; i++) {
             Map<String, String> conteudo = listaDeConteudos.get(i);
 
-            String urlImagem = conteudo.get("image")
+            // String urlImagem = conteudo.get("image")
+            String urlImagem = conteudo.get("url")
                 .replaceAll("(@+)(.*).jpg$", "$1.jpg");
 
             String titulo = conteudo.get("title");
