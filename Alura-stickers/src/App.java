@@ -12,7 +12,7 @@ public class App {
     public static void main(String[] args) throws Exception {
 
         // fazer uma conexão HTTP e buscar os top 250 filmes
-        String url = "https://alura-filmes.herokuapp.com/conteudos";
+        String url = "https://api.mocki.io/v2/549a5d8b";
         URI endereco = URI.create(url);
         var client = HttpClient.newHttpClient();
         var request = HttpRequest.newBuilder(endereco).GET().build();
@@ -21,24 +21,28 @@ public class App {
 
         // pegar só os dados que interessam (titulo, poster, classificação) [Parsear o json]
         var parser = new JsonParser();
-        List<Map<String, String>> listaDeFilmes = parser.parse(body);
-        // System.out.println(listaDeFilmes.size());
-        // System.out.println(listaDeFilmes.get(249));
+        List<Map<String, String>> listaDeConteudos = parser.parse(body);
 
         // exibir e manipular os dados
-        for (Map<String,String> filme : listaDeFilmes) {
-            String urlImagem = filme.get("image");
-            String titulo = filme.get("title");
+
+        var geradora = new GeradoraDeFigurinhas();
+
+        for (int i = 0; i < 10; i++) {
+            Map<String, String> conteudo = listaDeConteudos.get(i);
+
+            String urlImagem = conteudo.get("image")
+                .replaceAll("(@+)(.*).jpg$", "$1.jpg");
+
+            String titulo = conteudo.get("title");
 
             InputStream inputStream = new URL(urlImagem).openStream();
             String nomeArquivo = "saida/" + titulo + ".png";
-
-            var geradora = new GeradoraDeFigurinhas();
+        
             geradora.cria(inputStream, nomeArquivo);
 
-            System.out.println(filme.get("title"));
-            System.out.println(filme.get("image"));
-            System.out.println(filme.get("imDbRating"));
+            System.out.println(conteudo.get("title"));
+            System.out.println(conteudo.get("image"));
+            System.out.println(conteudo.get("imDbRating"));
             System.out.println();
         
         }
