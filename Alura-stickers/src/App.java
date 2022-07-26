@@ -1,43 +1,35 @@
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 
 public class App {
     public static void main(String[] args) throws Exception {
 
         // fazer uma conexão HTTP e buscar os top 250 filmes
+
         // String url = "https://api.mocki.io/v2/549a5d8b";
+        // ExtratorDeConteudo extrator = new ExtratorDeConteudoDoIMDB();
+
         String url = "https://api.mocki.io/v2/549a5d8b/NASA-APOD";
+        ExtratorDeConteudo extrator = new ExtratorDeConteudoDaNasa();
 
         var http = new ClienteHttp();
         String json = http.buscaDados(url);
 
-        // pegar só os dados que interessam (titulo, poster, classificação) [Parsear o json]
-        var parser = new JsonParser();
-        List<Map<String, String>> listaDeConteudos = parser.parse(json);
-
         // exibir e manipular os dados
+        List<Conteudo> conteudos = extrator.extraiConteudos(json);
 
         var geradora = new GeradoraDeFigurinhas();
 
-        for (int i = 0; i < 10; i++) {
-            Map<String, String> conteudo = listaDeConteudos.get(i);
+        for (int i = 0; i < 3; i++) {
+            Conteudo conteudo = conteudos.get(i);
 
-            // String urlImagem = conteudo.get("image")
-            String urlImagem = conteudo.get("url")
-                .replaceAll("(@+)(.*).jpg$", "$1.jpg");
-
-            String titulo = conteudo.get("title");
-
-            InputStream inputStream = new URL(urlImagem).openStream();
-            String nomeArquivo = "saida/" + titulo + ".png";
+            InputStream inputStream = new URL(conteudo.getUrlImagem()).openStream();
+            String nomeArquivo = "saida/" + conteudo.getTitulo() + ".png";
         
             geradora.cria(inputStream, nomeArquivo);
 
-            System.out.println(conteudo.get("title"));
-            System.out.println(conteudo.get("image"));
-            System.out.println(conteudo.get("imDbRating"));
+            System.out.println(conteudo.getTitulo());
             System.out.println();
         
         }
